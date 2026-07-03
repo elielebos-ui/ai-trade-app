@@ -1,0 +1,36 @@
+name: Daily Market Data Update
+
+on:
+  schedule:
+    # Runs at 22:30 UTC every Monday-Friday (which is 1:30 AM in Beirut!)
+    - cron: '30 22 * * 1-5'
+  workflow_dispatch: # This adds a manual "Run Now" button for you to test it
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Data Pipeline & Paper Trader
+        run: |
+          python fetch_data.py
+          python engineer_features.py
+          python paper_trader.py
+
+      - name: Commit and Push Changes to Database
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add *.csv paper_portfolio.json
+          git commit -m "Automated daily market update & paper trade execution" || echo "No changes to commit"
+          git push
