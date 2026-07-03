@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 st.set_page_config(page_title="AI Trade App Master Dashboard", page_icon="🤖", layout="wide")
 
-st.title("🦅 AI Trade App: Multi-Asset Market Intelligence")
+st.title("🦅 AI Trade App: Macro-Enhanced Market Intelligence")
 st.markdown("An autonomous system executing price action feature engineering, machine learning predictions, and live paper execution.")
 st.divider()
 
@@ -35,7 +35,8 @@ else:
     df_train = df.iloc[:split_idx].dropna().copy()
     df_test = df.iloc[split_idx:].copy()
     
-    features_list = ["SMA_20", "SMA_50", "Volatility_20d", "RSI_14", "MACD", "MACD_Signal"]
+    # UPGRADED: Added macro clues to the feature list
+    features_list = ["SMA_20", "SMA_50", "Volatility_20d", "RSI_14", "MACD", "MACD_Signal", "USD_Return_5d", "SP500_Return_5d"]
     
     ai_model = RandomForestClassifier(n_estimators=200, max_depth=5, min_samples_split=10, random_state=42)
     ai_model.fit(df_train[features_list], df_train["Target"])
@@ -93,7 +94,6 @@ else:
         with open(portfolio_file, "r") as f:
             port = json.load(f)
         
-        # Calculate current valuation of live holdings based on current file price
         if port["position"] == "LONG":
             live_val = port["shares"] * current_price
             display_pos = f"🟢 LONG ({port['shares']:.4f} Units)"
