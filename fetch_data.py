@@ -3,7 +3,6 @@ import yfinance as yf
 
 print("🚀 Starting the AI Trade App Data Ingestion System (Macro Upgrade)...")
 
-# Primary assets we want to predict
 assets = {
     "gold": "GC=F", 
     "crude_oil": "CL=F",
@@ -12,13 +11,11 @@ assets = {
     "nvidia": "NVDA"
 }
 
-# Macro market overlays (The clues)
 macro_indicators = {
-    "us_dollar": "DX-Y.NYB",   # US Dollar Index Futures
-    "sp500": "^GSPC"           # S&P 500 Index
+    "us_dollar": "DX-Y.NYB",   
+    "sp500": "^GSPC"           
 }
 
-# 1. First, download the macro indicators
 print("\n🌍 Downloading Global Macro Market Overlays...")
 for name, ticker_symbol in macro_indicators.items():
     data = yf.download(ticker_symbol, period="10y")
@@ -26,7 +23,6 @@ for name, ticker_symbol in macro_indicators.items():
         data.to_csv(f"{name}_macro.csv")
         print(f"✅ Saved macro indicator: {name.upper()}")
 
-# 2. Next, download primary assets
 for name, ticker_symbol in assets.items():
     print(f"\n🔄 Downloading 10 years of {name.upper()} data...")
     market_data = yf.download(ticker_symbol, period="10y")
