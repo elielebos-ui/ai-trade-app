@@ -1,7 +1,14 @@
 {
-    "cash": 10000.0,
-    "shares": 0.0,
-    "position": "CASH",
-    "last_price": 68.69000244140625,
-    "history": []
+    "cash": 0.0,
+    "shares": 138.90818581386162,
+    "position": "LONG",
+    "last_price": 71.98999786376953,
+    "history": [
+        {
+            "date": "2026-07-08",
+            "action": "BUY",
+            "price": 71.98999786376953,
+            "total_value": 10000.0
+        }
+    ]
 }
